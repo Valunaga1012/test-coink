@@ -90,15 +90,12 @@ export class PasoUnoComponent implements OnInit {
       this.registerForm.get('verification_id').markAsTouched();
       this.registerForm.get('verification_id').setValue(this.codeEncrypt);
       this.validator();
-      console.log(this.numbers);
-      console.log(this.codeEncrypt);
       
     }else{
       this.numbers = this.numbers + number;
       this.registerForm.get('phone_number').markAsTouched();
       this.registerForm.get('phone_number').setValue(this.numbers);
     }
-    
   }
 
   private validator(){    
