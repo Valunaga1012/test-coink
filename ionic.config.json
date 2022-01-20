@@ -1,0 +1,10 @@
+{
+  "name": "prueba-tecnica",
+  "integrations": {
+    "capacitor": {
+      "enabled": false
+    },
+    "cordova": {}
+  },
+  "type": "angular"
+}
