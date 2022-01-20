@@ -117,7 +117,7 @@ export class PasoUnoComponent implements OnInit {
   }
 
   public next(form) : void{
-    if(form.valid){
+    if(form.valid && this.registerForm.get('phone_number').value.length==10 ){
       this.phoneNumber = form.value.phone_number
       const payload = this.createData(form.value.phone_number);
       this.numbers =''
