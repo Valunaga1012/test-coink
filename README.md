@@ -7,7 +7,7 @@ npm i  //para instalar los paquetes de node
 2 ionic cordova build android
 3 ionic cordova run android // debe tener el dispositivo conectado y con los permisos necesarios
 
-el codigo de cuatro digitos por defecto es 1234 ya que el codigo que devuelve el servicio es alfanumerico y muy extenso
+El codigo que se envia a telefono para validar  por defecto es 1234 ya que el codigo que devuelve el servicio es alfanumerico y muy extenso
 
 # Versionamiento sugerido
 Node v14.17.6
