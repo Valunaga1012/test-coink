@@ -8,72 +8,73 @@
   </ion-row>
   <hr class="hr">
   <form [formGroup]="infoUserForm">
-      <h2 [style.margin-top]="'24px'" class="title title__secondary">Documento de identidad</h2>
-      <div class="input-group " [style.margin-top]="'40px'">
-        <select class="select-table" name="busqueda" id="busqueda" formControlName="type_doc" required>
+      <h2 class="title title__secondary mar-top-24">Documento de identidad</h2>
+      <div class="input-group mar-top-40">
+        <select class="select-table" name="busqueda" id="busqueda" [class.invalid]="checkErrors('type_doc')" formControlName="type_doc" required>
           <option *ngFor="let doc of typeDoc" [ngValue]="doc.description">{{doc.description}}</option>
         </select>
-        <label class="label-select" [ngClass]="{ 'invalid': validateinput('type_doc')}" for="busqueda">
+        <label class="label-select" [class.invalid]="checkErrors('type_doc')" for="busqueda">
           Tipo de documento
         </label>
       </div>
       <div class="input-group">
-        <input type="number" value="" id="doc" name="doc" [ngClass]="{ 'invalid': validateinput('num_doc')}"
+        <input type="number" value="" id="doc" name="doc" [class.invalid]="checkErrors('num_doc')"
           formControlName="num_doc" required>
-        <label class="label" value="" [ngClass]="{ 'invalid': validateinput('num_doc')}"
-          for="doc">Número de documento
+        <label class="label" value="" [class.invalid]="checkErrors('num_doc')" for="doc">
+          Número de documento
         </label>
-        <span class="invalid-span" *ngIf="validateinput('num_doc')">
-          Este campo es requerido, ingrese un NUMERO válido.
+        <span [class.invalid-span]="checkErrors('num_doc')" *ngIf="checkErrors('num_doc')">
+          {{getErrorMessage("num_doc",'NÚMERO')}}
         </span>
       </div>
       <div class="input-group">
-        <input type="text" id="expe" formControlName="expedition_date" 
-        [ngClass]="{ 'invalid': validateinput('expedition_date')}" onfocus="(this.type='date')"
+        <input type="text" id="expe" formControlName="expedition_date" [class.invalid]="checkErrors('expedition_date')" onfocus="(this.type='date')"
         onblur="(this.type='text')" required>
-        <label class="label" [ngClass]="{ 'invalid': validateinput('expedition_date')}"
+        <label class="label" [class.invalid]="checkErrors('expedition_date')"
          for="expe">Fecha de expedición del documento
         </label>
-        <span class="invalid-span" *ngIf="validateinput('expedition_date')">
-          Este campo es requerido, ingrese una FECHA valida
+        <span [class.invalid-span]="checkErrors('expedition_date')" *ngIf="checkErrors('expedition_date')">
+          {{getErrorMessage("expedition_date",'FECHA')}}
         </span>
       </div>
       <div class="input-group">
-        <input type="text" id="birth" formControlName="birth_date" onfocus="(this.type='date')" 
+        <input type="text" id="birth" [class.invalid]="checkErrors('birth_date')" formControlName="birth_date" onfocus="(this.type='date')" 
           onblur="(this.type='text')" required>
-        <label class="label" [ngClass]="{ 'invalid': validateinput('birth_date')}" for="birth">
+        <label class="label" [class.invalid]="checkErrors('birth_date')" for="birth">
           Fecha de nacimiento
         </label>
-        <span class="invalid-span" *ngIf="validateinput('birth_date')">
-          Este campo es requerido, ingrese una FECHA válida
+        <span [class.invalid-span]="checkErrors('birth_date')" *ngIf="checkErrors('birth_date')">
+          {{getErrorMessage("birth_date",'FECHA')}}
         </span>
       </div>
       <div class="input-group" [style.margin-top]="'38px'">
-        <select class="select-table" name="busqueda" id="busqueda" formControlName="gender"
-          [ngClass]="{ 'invalid': validateinput('gender')}" required>
+        <select class="select-table" name="genero" id="genero" formControlName="gender" [class.invalid]="checkErrors('gender')" required>
           <option *ngFor="let gender of genders" [ngValue]="gender.name">{{gender.name}}</option>
         </select>
-        <label class="label-select" [ngClass]="{ 'invalid': validateinput('gender')}" for="busqueda">
+        <label class="label-select" [class.invalid]="checkErrors('gender')" for="genero">
           Genero
         </label>
+        <span [class.invalid-span]="checkErrors('gender')" *ngIf="checkErrors('gender')">
+          {{getErrorMessage("gender",'')}}
+        </span>
       </div>
-      <h2 [style.margin]="'32px 0 15px 0'" class="title title__secondary">
+      <h2 class="title title__secondary mar-title">
         Configura tu cuenta
       </h2>
       <div class="input-group">
         <input type="email" id="email" formControlName="email"
-        [ngClass]="{ 'invalid': validateinput('email')}" required>
-        <label class="label" [ngClass]="{ 'invalid': validateinput('email')}" for="email">
+        [class.invalid]="checkErrors('email')" required>
+        <label class="label"  [class.invalid]="checkErrors('email')" for="email">
           Correo electrónico
         </label>
-        <span class="invalid-span" *ngIf="validateinput('email')">
-          Este campo es requerido, ingrese un EMAIL válido
+        <span [class.invalid-span]="checkErrors('email')" *ngIf="checkErrors('email')">
+          {{getErrorMessage("email",'EMAIL')}}
         </span>
       </div>
       <div class="input-group">
         <input type="email" id="conEmail" formControlName="confirmEmail"
-        [ngClass]="{'invalid': (validateinput('confirmEmail')) || (!matchingEmail(confirmEmail))}" required>
-        <label class="label" [ngClass]="{ 'invalid': validateinput('confirmEmail')||!matchingEmail(confirmEmail)}" for="conEmail">
+        [class.invalid]="checkErrors('confirmEmail') || (!matchingEmail(confirmEmail))" required>
+        <label class="label" [class.invalid]="checkErrors('confirmEmail')||!matchingEmail(confirmEmail)" for="conEmail">
           Confirmar correo electrónico
         </label>  
         <img class="icon" *ngIf="matchingEmail(confirmEmail)" src="assets/img/Check.svg" alt="">
@@ -82,28 +83,33 @@
         </span>
       </div>
       <div class="input-group">
-        <input maxlength="4" type="{{isShow ? 'text' : 'password' }}" id="pin" formControlName="pin" [ngClass]="{ 'invalid': validateinput('pin')}"
+        <input maxlength="4" type="{{isShow ? 'text' : 'password' }}" id="pin" formControlName="pin" [class.invalid]="checkErrors('pin')"
          required>
-        <label class="label" [ngClass]="{ 'invalid': validateinput('pin')}" for="pin">
+        <label class="label" [class.invalid]="checkErrors('pin')" for="pin">
           PIN de seguridad
         </label>
-        <ion-icon class="icon" (click)="isShow=!isShow" name="{{isShow ? 'eye-off': 'eye'}}"></ion-icon>    
+        <ion-icon class="icon" (click)="isShow=!isShow" name="{{isShow ? 'eye-off': 'eye'}}"></ion-icon>   
+        <span [class.invalid-span]="checkErrors('pin')" *ngIf="checkErrors('pin')">
+          {{getErrorMessage("pin",'PIN')}}
+        </span> 
       </div>
       <div class="input-group">
         <input maxlength="4" type="{{isShowEye ? 'text' : 'password' }}" id="conPin" formControlName="confirmPin"
-         [ngClass]="{'invalid': (!matchingPin(confirmPin))}"
+        [class.invalid]="(!matchingPin(confirmPin))"
          required>
-        <label class="label" [ngClass]="{ 'invalid': !matchingPin(confirmPin)}" for="conPin">
+        <label class="label" [class.invalid]="!matchingPin(confirmPin)" for="conPin">
           Confirmar PIN de seguridad
         </label>
         <ion-icon class="icon" (click)="isShowEye=!isShowEye" name="{{isShowEye ? 'eye-off': 'eye'}}"></ion-icon>    
-        <span class="invalid-span" *ngIf="!matchingPin(confirmPin)">
+        <span [class.invalid-span]="checkErrors('confirmPin')" *ngIf="checkErrors('confirmPin')">
           Este campo no coincide con el PIN
         </span>
       </div>
     <div class="login-button">
       <button class="button" [ngStyle]="{'background': infoUserForm.valid ? '#1EEA00' : '#EEEEEE' }"
-       [disabled]="infoUserForm.invalid" (click)="next(infoUserForm.value)"><h2 class="title">SIGUIENTE</h2></button>
+       [disabled]="infoUserForm.invalid" (click)="next(infoUserForm.value)">
+       <h2 class="title">SIGUIENTE</h2>
+      </button>
     </div>
   </form>
 </div>

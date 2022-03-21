@@ -1,4 +1,5 @@
 import { Component,Output,EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { LocalStorageService } from 'src/app/core/services/local-storage.service';
 import { ModalSuccessComponent } from 'src/app/shared/components/modal-success/modal-success.component';
@@ -17,7 +18,8 @@ export class PasoTresComponent {
 
   constructor(
     public modalController: ModalController, 
-    private localStorage: LocalStorageService
+    private localStorage: LocalStorageService,
+    private router:Router
     ) { }
 
   public isCheck(): void {
@@ -45,6 +47,9 @@ export class PasoTresComponent {
       });
     await popover.present();
     const { data } = await popover.onDidDismiss();
+    if(data.status){
+      this.router.navigate(['/'])
+    }
     
   }
 }

@@ -13,6 +13,9 @@
           &.months{
             margin-right: 0.5rem;
           }
+          &.invalid {
+            border-bottom: 1px solid var(--ion-color-danger) !important;
+          }
     }
     .input-group{
         position: relative;
@@ -94,5 +97,14 @@
         button:disabled{
             color: #757575 ;
         }
+    }
+    .mar-top-40{
+      margin-top: 40px;
+    }
+    .mar-top-24{
+        margin-top: 24px;
+      }
+    .mar-title{
+     margin: 32px 0 15px 0;
     }
 }

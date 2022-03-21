@@ -2,9 +2,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, Output,EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController, PopoverController } from '@ionic/angular';
-import { FIRST_NUMBER, KEY_ENCRYPT_DESENCRYPT } from 'src/app/core/constants/constants';
+import { BACK, CHECK, FIRST_NUMBER, KEY_ENCRYPT_DESENCRYPT, OINK, TEXT_ONE, TEXT_TWO } from 'src/app/core/constants/constants';
 import { ApiService } from 'src/app/core/services/api.service';
 import { EncryptService } from 'src/app/core/services/encrypt.service';
+import { FormService } from 'src/app/core/services/form.service';
 import { LocalStorageService } from 'src/app/core/services/local-storage.service';
 import { ModalComponent } from 'src/app/shared/components/modal/modal.component';
 @Component({
@@ -20,9 +21,8 @@ export class PasoUnoComponent implements OnInit {
   public registerForm: FormGroup;
   public numberPad: any = [{number:'1'},{number:'2'},{number:'3'},{number:'4'},{number:'5'},
                    {number:'6'},{number:'7'},{number:'8'},{number:'9'}];
-  public texts={ text:"Para comenzar, por favor ingresa <strong> tu número celular.</strong>",
-                text1:'Digíta el código que recibiste vía <strong> mensaje de texto</strong> al '};  
-  public imges = { oink:'assets/img/Oink.svg',back:'assets/img/Backspace.svg',check:'assets/img/Check-key.svg'};               
+  public texts={ text:TEXT_ONE, text1:TEXT_TWO};  
+  public imges = { oink:OINK,back:BACK,check:CHECK};               
   private error: any;
   private numbers: string = '';
   private codeEncrypt: string = '' ;
@@ -34,7 +34,8 @@ export class PasoUnoComponent implements OnInit {
     private formBuilder: FormBuilder,
     public modalController: ModalController,
     public popoverController: PopoverController,
-    private localStorage: LocalStorageService)
+    private localStorage: LocalStorageService,
+    private formService: FormService)
     {}
 
   ngOnInit(): void {
@@ -43,7 +44,7 @@ export class PasoUnoComponent implements OnInit {
 
   private buildForm(): void {
     this.registerForm = this.formBuilder.group({
-			phone_number: ['', [Validators.required, Validators.pattern(FIRST_NUMBER), Validators.maxLength(10)]],
+			phone_number: ['', [Validators.required, Validators.required, Validators.pattern(FIRST_NUMBER), Validators.maxLength(10)]],
       verification_id: ['']
 		});
   }
@@ -145,5 +146,13 @@ export class PasoUnoComponent implements OnInit {
     this.resetForms();
     if(data.data)
       this.sendCode(this.createData(this.phoneNumber));
+  }
+
+  public getErrorMessage(field: string): string {
+    return this.formService.getErrorMessage(this.registerForm, field,'Ingrese un numero valido ej: 3155555555');
+  }
+
+  public checkErrors(field: string): boolean | undefined {
+    return this.formService.checkErrors(this.registerForm, field);
   }
 }

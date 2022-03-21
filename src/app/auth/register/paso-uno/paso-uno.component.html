@@ -8,12 +8,15 @@
   </ion-row>    
   <form [formGroup]="registerForm" >
     <ion-row class="padding">
-      <input [readonly]="true" maxlength="4" *ngIf="!istex" type="text" placeholder="XXXX" class="input-color" (change)="pruebaKey()" formControlName="verification_id" required>
-      <input [readonly]="true" *ngIf="istex" type="number"  [ngClass]="{ 'invalid': validateinput('phone_number')}" 
+      <input [readonly]="true" maxlength="4" [class.invalid]="checkErrors('verification_id')" *ngIf="!istex" type="text" placeholder="XXXX" class="input-color" (change)="pruebaKey()" formControlName="verification_id" required>
+      <span *ngIf="checkErrors('verification_id')" [class.inval-span]="checkErrors('verification_id')">
+        {{getErrorMessage("verification_id")}}
+      </span>
+      <input [readonly]="true" *ngIf="istex" type="number"  [class.invalid]="checkErrors('phone_number')" 
       placeholder="(XXX - XXXXXX)" (change)="pruebaKey()" 
       formControlName="phone_number">
-      <span *ngIf="validateinput('phone_number')" [ngClass]="{ 'inval-span': validateinput('phone_number')}">
-        Ingrese un numero valido ej: 3155555555
+      <span *ngIf="checkErrors('phone_number')" [class.inval-span]="checkErrors('phone_number')">
+        {{getErrorMessage("phone_number")}}
       </span>
     </ion-row>
   </form>
